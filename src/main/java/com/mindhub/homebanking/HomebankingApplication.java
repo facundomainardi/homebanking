@@ -85,19 +85,6 @@ public class HomebankingApplication {
 			transactionRepository.save(transaction8);
 			repository.save(client1);
 			repository.save(client2);
-
-
-
-
-
-
-
-
-
-
-
-
-
 		};
 	}
 
