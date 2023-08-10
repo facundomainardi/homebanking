@@ -15,42 +15,26 @@ public class ClientDTO {
     private String firstName;
     private String lastName;
     private String email;
-
     Set<AccountDTO> accounts ;
     public ClientDTO(Client client) {
-
         this.id = client.getId();
-
         this.firstName = client.getFirstName();
-
         this.lastName = client.getLastName();
-
         this.email = client.getEmail();
-
-        this.accounts = client.getAccount().stream()
-                .map(account -> new AccountDTO(account))
-                .collect(Collectors.toSet());
+        this.accounts =  client.getAccount().stream().map(account -> new AccountDTO(account)).collect(Collectors.toSet());
 
     }
-
-
     public String getFirstName() {
         return firstName;
     }
-
     public Set<AccountDTO> getAccount() {
         return accounts;
     }
-
     public String getLastName() {
         return lastName;
     }
-
-
     public String getEmail() {
         return email;
     }
-
-
 
 }
