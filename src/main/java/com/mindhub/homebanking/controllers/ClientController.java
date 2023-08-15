@@ -18,11 +18,7 @@ public class ClientController {
     @Autowired
     private ClientRepository clientRepository;
     @RequestMapping("/clients")
-    public List<ClientDTO> getClients() {
-        return clientRepository.findAll().stream().map(ClientDTO::new).collect(toList());
-    }
+    public List<ClientDTO> getClients() {return clientRepository.findAll().stream().map(ClientDTO::new).collect(toList());}
     @RequestMapping("/clients/{id}")
-    public ClientDTO getClient(@PathVariable Long id) {
-        return clientRepository.findById(id).map(ClientDTO::new).orElse(null);
-    }
+    public ClientDTO getClient(@PathVariable Long id) {return clientRepository.findById(id).map(ClientDTO::new).orElse(null);}
 }

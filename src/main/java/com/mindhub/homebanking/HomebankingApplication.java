@@ -25,7 +25,7 @@ public class HomebankingApplication {
 	@Bean
 	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository,
 									  TransactionRepository transactionRepository, LoanRepository loanRepository,
-									  ClientLoanRepository clientLoanRepository) {
+									  ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
 		return (args) -> {
 			// save a couple of client
 			Client client1  = new Client("Melba", "Morel",
@@ -61,6 +61,13 @@ public class HomebankingApplication {
 			ClientLoan clientLoan3 = new ClientLoan(100000.00,24);
 			ClientLoan clientLoan4 = new ClientLoan(200000.00,36);
 
+			Card card1 = new Card(client1.getFirstName()+" "+client1.getLastName(),CardType.DEBIT ,CardColor.GOLD,
+					"5555-9859-3258-0022",613, LocalDate.now(), LocalDate.now().plusYears(5));
+			Card card2 = new Card(client1.getFirstName()+" "+client1.getLastName(),CardType.CREDIT ,CardColor.TITANIUM,
+					"6666-5555-4444-3333",951, LocalDate.now(), LocalDate.now().plusYears(5));
+			Card card3 = new Card(client2.getFirstName()+" "+client2.getLastName(),CardType.CREDIT ,CardColor.SILVER,
+					"3215-1478-2564-6582",203, LocalDate.now(), LocalDate.now().plusYears(5));
+
 			clientRepository.save(client1);
 			clientRepository.save(client2);
 			client1.addAccount(account1);
@@ -90,6 +97,10 @@ public class HomebankingApplication {
 			client2.addClientLoan(clientLoan4);
 			loan3.addClientLoan(clientLoan4);
 
+			client1.addCard(card1);
+			client1.addCard(card2);
+			client2.addCard(card3);
+
 			accountRepository.save(account1);
 			accountRepository.save(account2);
 			accountRepository.save(account3);
@@ -111,6 +122,9 @@ public class HomebankingApplication {
 			loanRepository.save(loan3);
 			clientLoanRepository.save(clientLoan1);
 			clientLoanRepository.save(clientLoan2);
+			cardRepository.save(card1);
+			cardRepository.save(card2);
+			cardRepository.save(card3);
 			clientRepository.save(client1);
 			clientRepository.save(client2);
 		};

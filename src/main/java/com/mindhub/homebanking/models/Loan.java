@@ -33,33 +33,22 @@ public class Loan {
     }
 
     public Long getId() {return id;}
-
     public String getName() {return name;}
-
     public void setName(String name) {this.name = name;}
-
     public Double getMaxAmount() {return maxAmount;}
-
     public void setMaxAmount(Double maxAmount) {this.maxAmount = maxAmount;}
-
     public List<Integer> getPayments() {return payments;}
-
     public void setPayments(List<Integer> payments) {this.payments = payments;}
-
     public Set<ClientLoan> getClientLoans() {
         return clientLoans;
     }
-
     public void addClientLoan(ClientLoan clientLoan) {
         clientLoan.setLoan(this);
         clientLoans.add(clientLoan);
     }
-
     public void setClientLoans(Set<ClientLoan> clientLoans) {
         this.clientLoans = clientLoans;
     }
     @JsonIgnore
-    public Set<Client> getClients(){
-        return clientLoans.stream().map(clientLoan -> clientLoan.getClient()).collect(Collectors.toSet());   //stream porque necesito operar con el map.
-    }
+    public Set<Client> getClients(){return clientLoans.stream().map(clientLoan -> clientLoan.getClient()).collect(Collectors.toSet());}
 }
