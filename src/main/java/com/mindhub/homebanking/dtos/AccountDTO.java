@@ -35,9 +35,7 @@ public class AccountDTO {
     public void setBalance(double balance) {this.balance = balance;}
     public LocalDate getCreationDate() {return creationDate;}
     public double getBalance() {return balance;}
-    public Set<TransactionDTO> getTransactions() {
-        return transactions;
-    }
+    public Set<TransactionDTO> getTransactions() {return transactions;}
     public void setTransactions(Set<TransactionDTO> transactions) {
         this.transactions = transactions;
     }
