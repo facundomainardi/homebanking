@@ -33,8 +33,17 @@ public class ClientController {
     @PostMapping("/clients")
     public ResponseEntity<Object> register(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String email, @RequestParam String password) {
 
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+        if (firstName.isEmpty()){
+            return new ResponseEntity<>("FIRST NAME IS EMPTY", HttpStatus.FORBIDDEN);
+        }
+        else if (lastName.isEmpty()){
+            return new ResponseEntity<>("LAST NAME IS EMPTY", HttpStatus.FORBIDDEN);
+        }
+        else if(email.isEmpty()){
+            return new ResponseEntity<>("EMAIL IS EMPTY", HttpStatus.FORBIDDEN);
+        }
+        else if(password.isEmpty()){
+            return new ResponseEntity<>("PASSWORD IS EMPTY", HttpStatus.FORBIDDEN);
         }
 
         if (clientRepository.findByEmail(email) !=  null) {
