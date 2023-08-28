@@ -37,14 +37,14 @@ public class HomebankingApplication {
 					"melba@mindhub.com", passwordEncoder.encode("1234"));
 			Client client2 = new Client("Juan", "Mainardi",
 					"mainardi@mindhub.com", passwordEncoder.encode("5678"));
-			Account account1 = new Account( "VIN001", LocalDate.now(), 5000);
-			Account account2 = new Account( "VIN002", LocalDate.now().plusDays(1), 7500);
-			Account account3 = new Account( "VIN003", LocalDate.now(), 15000);
-			Account account4 = new Account( "VIN004", LocalDate.now(), 72500);
-			Account account5 = new Account( "VIN005", LocalDate.now(), 5900);
-			Account account6 = new Account( "VIN006", LocalDate.now(), 3500);
-			Account account7 = new Account( "VIN007", LocalDate.now(), 9000);
-			Account account8 = new Account( "VIN008", LocalDate.now(), 2500);
+			Account account1 = new Account( "VIN-001", LocalDate.now(), 5000);
+			Account account2 = new Account( "VIN-002", LocalDate.now().plusDays(1), 7500);
+			Account account3 = new Account( "VIN-003", LocalDate.now(), 15000);
+			Account account4 = new Account( "VIN-004", LocalDate.now(), 72500);
+			Account account5 = new Account( "VIN-005", LocalDate.now(), 5900);
+			Account account6 = new Account( "VIN-006", LocalDate.now(), 3500);
+			Account account7 = new Account( "VIN-007", LocalDate.now(), 9000);
+			Account account8 = new Account( "VIN-008", LocalDate.now(), 2500);
 			Transaction transaction1 = new Transaction(TransactionType.DEBIT,-1000.00,"Impuestos varios", LocalDateTime.now());
 			Transaction transaction2 = new Transaction(TransactionType.CREDIT,10000.00,"Acreditacion de haberes",LocalDateTime.now());
 			Transaction transaction3 = new Transaction(TransactionType.DEBIT,-3000.00,"CASA", LocalDateTime.now());
@@ -134,8 +134,6 @@ public class HomebankingApplication {
 			clientRepository.save(client2);
 		};
 	}
-
-
 	}
 
 

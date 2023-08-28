@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
@@ -53,11 +54,20 @@ public class ClientController {
         Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password));
         clientRepository.save(client);
 
+        Account account = new Account("VIN-"+getRandomNumber(10000001,100000000), LocalDate.now(),0.00);
+
+        client.addAccount(account);
+
+        accountRepository.save(account);
+
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @GetMapping("/clients/current")
     public ClientDTO getClient(Authentication authentication){
         Client client = this.clientRepository.findByEmail(authentication.getName());
         return new ClientDTO(client);
+    }
+    public int getRandomNumber(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
     }
 }
