@@ -22,6 +22,7 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()//ORDENAR LOS ACCESOS Y HACERLOS BIEN.
                 .antMatchers("/web/index.html").permitAll()
+                .antMatchers("/rest/**").hasAuthority("ADMIN")
                 .antMatchers("/web/accounts.html").hasAuthority("CLIENT")
                 .antMatchers("/web/account.html").hasAuthority("CLIENT")
                 .antMatchers("/web/cards.html").hasAuthority("CLIENT")

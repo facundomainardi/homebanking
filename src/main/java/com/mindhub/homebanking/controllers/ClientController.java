@@ -53,13 +53,9 @@ public class ClientController {
 
         Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password));
         clientRepository.save(client);
-
         Account account = new Account("VIN-"+getRandomNumber(10000001,100000000), LocalDate.now(),0.00);
-
         client.addAccount(account);
-
         accountRepository.save(account);
-
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @GetMapping("/clients/current")

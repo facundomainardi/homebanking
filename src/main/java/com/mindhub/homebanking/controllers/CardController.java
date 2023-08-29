@@ -59,14 +59,14 @@ import java.util.stream.Stream;
         }
 
 
-    public static String getRandomNumber(int min, int max) {
+    public  String getRandomNumber(int min, int max) {
         return  (int)((Math.random() * (max - min)) + min ) + "-" +
                 (int)((Math.random() * (max - min)) + min ) + "-" +
                 (int)((Math.random() * (max - min)) + min ) + "-" +
                 (int)((Math.random() * (max - min)) + min );
     }
 
-    public static int getRandomNumberCvv(int min, int max) {
+    public  int getRandomNumberCvv(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
     }
 
