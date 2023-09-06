@@ -4,9 +4,9 @@ import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.Transaction;
 import com.mindhub.homebanking.models.TransactionType;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
-import com.mindhub.homebanking.repositories.TransactionRepository;
+import com.mindhub.homebanking.services.AccountService;
+import com.mindhub.homebanking.services.ClientService;
+import com.mindhub.homebanking.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,19 +22,19 @@ import java.time.LocalDateTime;
 public class TransactionController {
 
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountService accountService;
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService;
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private TransactionService transactionService;
 
     @Transactional
     @PostMapping("/api/transactions")
     public ResponseEntity<Object> createTransactions(Authentication authentication, @RequestParam String fromAccountNumber, @RequestParam String toAccountNumber, @RequestParam Double amount, @RequestParam String description) {
 
-        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientService.findClientByEmail(authentication.getName());
         if (client == null) return new ResponseEntity<>("Client not authorization", HttpStatus.FORBIDDEN);
 
         if (amount == null || description.isEmpty() || fromAccountNumber.isEmpty() || toAccountNumber.isEmpty())
@@ -43,8 +43,8 @@ public class TransactionController {
         if (fromAccountNumber.equals(toAccountNumber))
             return new ResponseEntity<>("Accounts must be not the same", HttpStatus.FORBIDDEN);
 
-        Account accountFrom = accountRepository.findByNumber(fromAccountNumber);
-        Account accountTo = accountRepository.findByNumber(toAccountNumber);
+        Account accountFrom = accountService.findByNumber(fromAccountNumber);
+        Account accountTo = accountService.findByNumber(toAccountNumber);
 
         if (accountFrom == null) return new ResponseEntity<>("Account not exist", HttpStatus.FORBIDDEN);
         if (accountTo == null) return new ResponseEntity<>("Account not exist", HttpStatus.FORBIDDEN);
@@ -61,14 +61,14 @@ public class TransactionController {
         accountFrom.addTransaction(transactionFrom);
         accountTo.addTransaction(transactionTo);
 
-        transactionRepository.save(transactionFrom);
-        transactionRepository.save(transactionTo);
+        transactionService.saveTransaction(transactionFrom);
+        transactionService.saveTransaction(transactionTo);
 
         accountFrom.setBalance(accountFrom.getBalance() - amount);
         accountTo.setBalance(accountTo.getBalance() + amount);
 
-        accountRepository.save(accountFrom);
-        accountRepository.save(accountTo);
+        accountService.saveAccount(accountFrom);
+        accountService.saveAccount(accountTo);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

@@ -4,8 +4,8 @@ import com.mindhub.homebanking.models.Card;
 import com.mindhub.homebanking.models.CardColor;
 import com.mindhub.homebanking.models.CardType;
 import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.repositories.CardRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.CardService;
+import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +24,14 @@ import java.util.stream.Stream;
     public class CardController {
 
         @Autowired
-        public ClientRepository clientRepository;
+        public ClientService clientService;
         @Autowired
-        public CardRepository cardRepository;
+        public CardService cardService;
 
         @PostMapping("/clients/current/cards")
         public ResponseEntity<Object> registerCard(Authentication authentication, @RequestParam CardType cardType, @RequestParam CardColor cardColor) {
 
-            Client client = clientRepository.findByEmail(authentication.getName());
+            Client client = clientService.findClientByEmail(authentication.getName());
 
             AtomicInteger count= new AtomicInteger();
 
@@ -39,18 +39,18 @@ import java.util.stream.Stream;
 
                 Stream<Card> stream = client.getCards().stream();
                 stream.forEach((card) -> {if (card.getType() == cardType) count.getAndIncrement();});
-
-                if (count.get() > 2) {
+                String numberCard = getRandomNumber(1001,10000);
+                if (count.get() > 2 && cardService.findCardByNumber(numberCard) == null) {
                     return new ResponseEntity<>("You have already 3 cards of that type", HttpStatus.FORBIDDEN);
                 } else {
 
                     Card card = new Card( client.getFirstName()+" "+client.getLastName(),cardType,
-                            cardColor, getRandomNumber(1001,10000),getRandomNumberCvv(101,1000),
+                            cardColor, numberCard,getRandomNumberCvv(101,1000),
                             LocalDate.now(), LocalDate.now().plusYears(5));
 
                     client.addCard(card);
 
-                    cardRepository.save(card);
+                    cardService.saveCard(card);
                     return new ResponseEntity<>(HttpStatus.CREATED);
                 }
             } else {

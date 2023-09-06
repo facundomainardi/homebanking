@@ -20,21 +20,18 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
 
-        http.authorizeRequests()//ORDENAR LOS ACCESOS Y HACERLOS BIEN.
+        http.authorizeRequests()
                 .antMatchers("/web/index.html").permitAll()
-                .antMatchers("/rest/**").hasAuthority("ADMIN")
-                .antMatchers("/web/accounts.html").hasAuthority("CLIENT")
-                .antMatchers("/web/accounts.html").hasAuthority("ADMIN")
-                .antMatchers("/web/account.html").hasAuthority("ADMIN")
-               .antMatchers("/web/accounts.html").hasAuthority("CLIENT")
-                .antMatchers("/web/account.html").hasAuthority("CLIENT")
-                .antMatchers("/web/cards.html").hasAuthority("CLIENT")
+                .antMatchers("/web/accounts.html").hasAnyAuthority("ADMIN", "CLIENT")
+                .antMatchers("/web/account.html").hasAnyAuthority("ADMIN", "CLIENT")
+                .antMatchers("/web/cards.html").hasAnyAuthority("ADMIN", "CLIENT")
                 .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
+                .antMatchers("h2-console","/rest/**","/api/clients").hasAuthority("ADMIN")
                 .antMatchers("/api/clients/current/accounts").hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.POST,"/api/clients/current/accounts").hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.POST, "/api/clients/current/cards").hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.POST, "/api/transactions").hasAuthority("CLIENT")
-                .antMatchers("/api/loans").hasAuthority("CLIENT");
+                .antMatchers("/api/loans").hasAnyAuthority("ADMIN", "CLIENT");
 
         http.formLogin()
                 .usernameParameter("email")
