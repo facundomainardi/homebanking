@@ -41,16 +41,18 @@ public class LoadController {
         Client clientConnect = clientService.findClientByEmail(authentication.getName());
         if(clientConnect == null) return new ResponseEntity<>("Client isnt authorization", HttpStatus.FORBIDDEN);
         System.out.println(loanApplicationDTO.toString());
-        if(loanApplicationDTO.getLoanId() == 0 || loanApplicationDTO.getPayments() == 0 || loanApplicationDTO.getToAccountNumber().isEmpty() || loanApplicationDTO.getAmount() <= 0) return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
-
-
+        if(loanApplicationDTO.getLoanId() == 0 ||
+                loanApplicationDTO.getPayments() == 0 ||
+                loanApplicationDTO.getToAccountNumber().isEmpty() ||
+                loanApplicationDTO.getAmount() <= 0)
+            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
 
         Loan loan = loanService.findLoanById(loanApplicationDTO.getLoanId());
-        if(loan == null) return new ResponseEntity<>("No existe ese tipo de prestamo", HttpStatus.FORBIDDEN);
+        if(loan == null) return new ResponseEntity<>("There is no such type of loan", HttpStatus.FORBIDDEN);
 
-        if(loanApplicationDTO.getAmount() > loan.getMaxAmount()) return new ResponseEntity<>("Prestamo excedido", HttpStatus.FORBIDDEN);
+        if(loanApplicationDTO.getAmount() > loan.getMaxAmount()) return new ResponseEntity<>("Loan exceeded", HttpStatus.FORBIDDEN);
 
-        if(!loan.getPayments().contains(loanApplicationDTO.getPayments())) return new ResponseEntity<>("Cantidad de cuotas no permitidas", HttpStatus.FORBIDDEN);
+        if(!loan.getPayments().contains(loanApplicationDTO.getPayments())) return new ResponseEntity<>("not allowed", HttpStatus.FORBIDDEN);
 
         Account accountDestino = accountService.findByNumber(loanApplicationDTO.getToAccountNumber());
         if(accountDestino == null) return new ResponseEntity<>("Account dosent exist", HttpStatus.FORBIDDEN);

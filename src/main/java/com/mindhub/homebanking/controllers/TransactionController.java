@@ -37,7 +37,10 @@ public class TransactionController {
         Client client = clientService.findClientByEmail(authentication.getName());
         if (client == null) return new ResponseEntity<>("Client not authorization", HttpStatus.FORBIDDEN);
 
-        if (amount == null || description.isEmpty() || fromAccountNumber.isEmpty() || toAccountNumber.isEmpty())
+        if (amount == null ||
+                description.isEmpty() ||
+                fromAccountNumber.isEmpty() ||
+                toAccountNumber.isEmpty())
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
 
         if (fromAccountNumber.equals(toAccountNumber))
@@ -54,6 +57,9 @@ public class TransactionController {
 
         if (accountFrom.getBalance() < amount)
             return new ResponseEntity<>("Your Balance  enougth", HttpStatus.FORBIDDEN);
+
+        if (amount<=0)
+            return new ResponseEntity<>("Amount  invalid", HttpStatus.FORBIDDEN);
 
         Transaction transactionFrom = new Transaction(TransactionType.DEBIT, amount * (-1), description + " - Cuenta: " + fromAccountNumber, LocalDateTime.now());
         Transaction transactionTo = new Transaction(TransactionType.CREDIT, amount, description + " - Cuenta: " + toAccountNumber, LocalDateTime.now());
