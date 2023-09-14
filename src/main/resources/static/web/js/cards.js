@@ -7,6 +7,9 @@ Vue.createApp({
             debitCards: [],
             errorToats: null,
             errorMsg: null,
+            cardsTrue:[],
+            cardsTrueCredit:[],
+            f: new Date()
         }
     },
     methods: {
@@ -16,7 +19,13 @@ Vue.createApp({
                     //get client ifo
                     this.clientInfo = response.data;
                     this.creditCards = this.clientInfo.cards.filter(card => card.type == "CREDIT");
-                    this.debitCards = this.clientInfo.cards.filter(card => card.type == "DEBIT");
+                    this.debitCards = this.clientInfo.cards.filter(card => card.type == "DEBIT" );
+                    this.cardsTrueDebit = this.debitCards.filter(card => card.current == true);
+                    this.cardsTrueCredit = this.creditCards.filter(card => card.current == true);
+                   console.log(this.creditCards)
+//                    console.log(this.debitCards)
+//                    console.log(this.cardsTrueDebit)
+                    console.log(this.cardsTrueCredit)
                 })
                 .catch((error) => {
                     this.errorMsg = "Error getting data";
@@ -26,6 +35,12 @@ Vue.createApp({
         formatDate: function (date) {
             return new Date(date).toLocaleDateString('en-gb');
         },
+         disable: function (id) {
+                   axios.patch(`/api/clients/current/cards/modify/`+id)
+                                   .then(response => {
+                                       return window.location.reload()
+                                   })
+                },
         signOut: function () {
             axios.post('/api/logout')
                 .then(response => window.location.href = "/web/index.html")

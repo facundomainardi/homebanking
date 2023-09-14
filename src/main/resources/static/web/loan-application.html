@@ -99,7 +99,7 @@
                                         <select id="to-account" v-model="accountToNumber" class="form-select"
                                             aria-label="Default select example" required>
                                             <option value="VIN">Open this select menu</option>
-                                            <option v-for="account in clientAccounts" v-bind:value="account.number">{{
+                                            <option v-for="account in accountsActive" v-bind:value="account.number">{{
                                                 account.number }}</option>
                                         </select>
                                     </div>

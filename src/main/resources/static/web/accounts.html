@@ -31,10 +31,12 @@
                 </div>
             </div>
         </div>
+        <template v-if="clientInfo.firstName != 'admin'">
         <div class="container">
             <div class="row mt-5">
                 <div class="col-12 col-md-2">
                     <div class="">
+
                         <a href="/web/accounts.html"
                             class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                             <img class="menu-logo" src="img/Mindhub-logo.png">
@@ -73,30 +75,44 @@
                         </ul>
                     </div>
                 </div>
+
                 <div class="col">
+
                     <div class="row">
                         <div class="col">
                             <h1 class="display-1">{{ clientInfo.firstName }} {{ clientInfo.lastName }}</h1>
                         </div>
                     </div>
+
                     <div class="row mt-3">
                         <div class="col">
                             <h2 class="display-6 subtitle">Accounts</h2>
-                            <button v-if="clientInfo.account != null && clientInfo.account.length < 3"
-                                v-on:click="create" id="create" class="btn btn-sm btn-success">Create</button>
+                            <template v-if="clientInfo.account != null && accountsActive.length < 3">
+                            <button v-on:click="create" id="create" class="btn btn-sm btn-success">Create</button>
+                                <select id="account-type" v-model="typeAccounts" class="form-select"
+                                        aria-label="Default select example" required>
+                                    <option value="none">SELECT ACCOUNT TYPE</option>
+                                    <option value="AHORRO">AHORRO</option>
+                                    <option value="CORRIENTE">CORRIENTE</option>
+                                </select>
+                            </template>
                         </div>
                     </div>
                     <div class="row mx-2">
-                        <div v-for="account in clientInfo.account" class="col-12 col-md-4 mt-2 ">
+                        <div v-for="account in accountsActive" class="col-12 col-md-4 mt-2 ">
                             <a class="account-link" v-bind:href="'/web/account.html?id='+account.id">
                                 <div class="card border-0 account">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ account.number }}</h5>
                                         <p class="card-text"> {{ formatDate(account.creationDate) }}</p>
+                                        <p class="card-text"> {{ account.typeAccounts }}</p>
                                         <p class="text-center lead account-balance"> ${{ account.balance }} </p>
                                     </div>
                                 </div>
                             </a>
+                            <form class="mt-4" v-on:submit="disable(account.id)">
+                                <button type="submit" class="btn btn-sm btn-success">DISABLE</button>
+                            </form>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -120,6 +136,19 @@
                 </div>
             </div>
         </div>
+        </template>
+        <template v-else>
+            <img class="menu-logo" src="img/Mindhub-logo.png">
+            <h4>ADMINISTRATION PANEL</h4>
+
+            <a href="create-loan.html"
+               class="btn btn-sm btn-success">Create Loan</a>
+            <a href="create-loan.html"
+               class="btn btn-sm btn-success">Create Card</a>
+            <a href="create-loan.html"
+               class="btn btn-sm btn-success">Create Account</a>
+
+        </template>
     </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>

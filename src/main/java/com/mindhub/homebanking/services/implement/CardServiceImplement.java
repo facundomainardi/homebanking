@@ -33,4 +33,11 @@ public class CardServiceImplement implements CardService {
     public Card findCardByNumber(String number) {
         return cardRepository.findByNumber(number);
     }
+
+    @Override
+    public Card modifyCard(long id, Card newCard)  {
+       Card card= cardRepository.findById(id).orElse(null);
+        newCard.setId(card.getId());
+        return cardRepository.save(newCard);
+    }
 }

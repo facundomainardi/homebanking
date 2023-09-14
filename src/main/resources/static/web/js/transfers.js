@@ -6,6 +6,7 @@ Vue.createApp({
             debitCards: [],
             errorToats: null,
             errorMsg: null,
+            accountsActive:[],
             accountFromNumber: "VIN",
             accountToNumber: "VIN",
             trasnferType: "own",
@@ -19,6 +20,8 @@ Vue.createApp({
                 .then((response) => {
                     //get client ifo
                     this.clientAccounts = response.data;
+                     this.accountsActive = this.clientAccounts.filter(account => account.active == true)
+                                          console.log(this.accountsActive)
                 })
                 .catch((error) => {
                     console.log(error);
@@ -71,7 +74,7 @@ Vue.createApp({
         },
         changedFrom: function () {
             if (this.trasnferType == "own") {
-                this.clientAccountsTo = this.clientAccounts.filter(account => account.number != this.accountFromNumber);
+                this.clientAccountsTo = this.accountsActive.filter(account => account.number != this.accountFromNumber);
                 this.accountToNumber = "VIN";
             }
         },

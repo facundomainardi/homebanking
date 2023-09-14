@@ -15,4 +15,6 @@ public interface CardService {
 
     Card findCardByNumber(String number);
 
+    Card modifyCard(long id, Card newCard);
+
 }

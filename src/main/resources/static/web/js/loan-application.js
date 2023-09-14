@@ -6,6 +6,7 @@ Vue.createApp({
             payments: 0,
             paymentsList: [],
             clientAccounts: [],
+            accountsActive: [],
             errorToats: null,
             errorMsg: null,
             accountToNumber: "VIN",
@@ -20,6 +21,8 @@ Vue.createApp({
                     //get loan types ifo
                     this.loanTypes = response[0].data;
                     this.clientAccounts = response[1].data;
+    this.accountsActive = this.clientAccounts.filter(account => account.active == true)
+                                              console.log(this.accountsActive)
                 })
                 .catch((error) => {
                     this.errorMsg = "Error getting data";

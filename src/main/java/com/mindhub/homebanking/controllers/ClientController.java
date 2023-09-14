@@ -3,6 +3,7 @@ package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
+import com.mindhub.homebanking.models.TypeAccounts;
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class ClientController {
         clientService.saveClient(client);
         int numberAccount = getRandomNumber(100001,100000000);
         if (accountService.findByNumber("VIN-"+numberAccount) == null) {
-            Account account = new Account("VIN-" + numberAccount, LocalDate.now(), 0.00);
+            Account account = new Account("VIN-" + numberAccount, LocalDate.now(), 0.00, TypeAccounts.AHORRO);
             client.addAccount(account);
             accountService.saveAccount(account);
             return new ResponseEntity<>(HttpStatus.CREATED);

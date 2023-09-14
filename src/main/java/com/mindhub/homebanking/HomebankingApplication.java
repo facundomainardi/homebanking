@@ -21,12 +21,12 @@ import java.util.List;
 @SpringBootApplication
 public class HomebankingApplication {
 
-	@Autowired
-	PasswordEncoder passwordEncoder;
+//	@Autowired
+//	PasswordEncoder passwordEncoder;
 	public static void main(String[] args) {
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
-
+//
 //	@Bean
 //	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository,
 //									  TransactionRepository transactionRepository, LoanRepository loanRepository,
@@ -69,11 +69,11 @@ public class HomebankingApplication {
 //			ClientLoan clientLoan4 = new ClientLoan(200000.00,36);
 //
 //			Card card1 = new Card(client1.getFirstName()+" "+client1.getLastName(),CardType.DEBIT ,CardColor.GOLD,
-//					"5555-9859-3258-0022",613, LocalDate.now(), LocalDate.now().plusYears(5));
+//					"5555-9859-3258-0022",613, LocalDate.now(), LocalDate.now().plusYears(5), true);
 //			Card card2 = new Card(client1.getFirstName()+" "+client1.getLastName(),CardType.CREDIT ,CardColor.TITANIUM,
-//					"6666-5555-4444-3333",951, LocalDate.now(), LocalDate.now().plusYears(5));
+//					"6666-5555-4444-3333",951, LocalDate.now(), LocalDate.now().plusYears(5), true);
 //			Card card3 = new Card(client2.getFirstName()+" "+client2.getLastName(),CardType.CREDIT ,CardColor.SILVER,
-//					"3215-1478-2564-6582",203, LocalDate.now(), LocalDate.now().plusYears(5));
+//					"3215-1478-2564-6582",203, LocalDate.now(), LocalDate.now().plusYears(5), true);
 //
 //			clientRepository.save(client1);
 //			clientRepository.save(client2);

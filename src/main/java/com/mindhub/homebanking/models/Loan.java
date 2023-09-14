@@ -18,6 +18,8 @@ public class Loan {
     private Long id;
     private String name;
     private Double maxAmount;
+
+   // private double interest;
     @ElementCollection
     private List<Integer> payments = new ArrayList<>();
 
@@ -46,6 +48,15 @@ public class Loan {
         clientLoan.setLoan(this);
         clientLoans.add(clientLoan);
     }
+
+//    public double getInterest() {
+//        return interest;
+//    }
+//
+//    public void setInterest(double interest) {
+//        this.interest = interest;
+//    }
+
     public void setClientLoans(Set<ClientLoan> clientLoans) {
         this.clientLoans = clientLoans;
     }

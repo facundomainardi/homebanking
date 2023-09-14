@@ -1,6 +1,7 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.dtos.LoanApplicationDTO;
+import com.mindhub.homebanking.dtos.LoanCreateDTO;
 import com.mindhub.homebanking.dtos.LoanDTO;
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.services.*;
@@ -77,7 +78,22 @@ public class LoadController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-
+    @Transactional
+    @PostMapping ("/api/loansType")
+    public ResponseEntity<Object> createLoan(@RequestBody LoanCreateDTO loanCreateDTO)       {
+        if (loanCreateDTO.getName()==null){
+            return new ResponseEntity<>("You must select a name for the loan type", HttpStatus.FORBIDDEN);
+        }
+        if (loanCreateDTO.getMaxAmount()<=0 || loanCreateDTO.getMaxAmount()==null){
+            return new ResponseEntity<>("You must select a positive maximum amount", HttpStatus.FORBIDDEN);
+        }
+        if (loanCreateDTO.getPayments().size()==0){
+            return new ResponseEntity<>("You must add at least one available quota", HttpStatus.FORBIDDEN);
+        }
+        Loan loan= new Loan(loanCreateDTO.getName(), loanCreateDTO.getMaxAmount(), loanCreateDTO.getPayments());
+        loanService.saveLoan(loan);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
 
     @RequestMapping("/api/loans")

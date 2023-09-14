@@ -19,6 +19,9 @@ public class Card {
     private LocalDate fromDate;
     private LocalDate thruDate;
 
+   private boolean expired = false;
+    private boolean IsCurrent = true;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
     private Client client;
@@ -26,7 +29,7 @@ public class Card {
     public Card() {
     }
 
-    public Card(String cardholder, CardType type, CardColor color, String number, int cvv, LocalDate fromDate, LocalDate thruDate) {
+    public Card(String cardholder, CardType type, CardColor color, String number, int cvv, LocalDate fromDate, LocalDate thruDate, boolean isCurrent) {
         this.cardholder = cardholder;
         this.type = type;
         this.color = color;
@@ -34,6 +37,8 @@ public class Card {
         this.cvv = cvv;
         this.fromDate = fromDate;
         this.thruDate = thruDate;
+        this.IsCurrent = isCurrent;
+
     }
 
     public Client getClient() {
@@ -107,5 +112,19 @@ public class Card {
     public void setThruDate(LocalDate thruDate) {
         this.thruDate = thruDate;
     }
+    public boolean isCurrent() {
+        return IsCurrent;
+    }
 
+    public void setCurrent(boolean current) {
+        IsCurrent = current;
+    }
+
+    public boolean isExpired() {
+        return expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
+    }
 }
