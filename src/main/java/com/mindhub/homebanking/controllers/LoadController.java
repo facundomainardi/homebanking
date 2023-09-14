@@ -42,11 +42,14 @@ public class LoadController {
         Client clientConnect = clientService.findClientByEmail(authentication.getName());
         if(clientConnect == null) return new ResponseEntity<>("Client isnt authorization", HttpStatus.FORBIDDEN);
         System.out.println(loanApplicationDTO.toString());
-        if(loanApplicationDTO.getLoanId() == 0 ||
-                loanApplicationDTO.getPayments() == 0 ||
-                loanApplicationDTO.getToAccountNumber().isEmpty() ||
-                loanApplicationDTO.getAmount() <= 0)
-            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+        if(loanApplicationDTO.getLoanId() == 0)
+            return new ResponseEntity<>("ID INVALID", HttpStatus.FORBIDDEN);
+         if( loanApplicationDTO.getPayments() == 0)
+             return new ResponseEntity<>("Payments Invalid", HttpStatus.FORBIDDEN);
+         if(loanApplicationDTO.getToAccountNumber().isEmpty())
+             return new ResponseEntity<>("Account Number is empty", HttpStatus.FORBIDDEN);
+         if(loanApplicationDTO.getAmount() <= 0)
+            return new ResponseEntity<>("Amount empty", HttpStatus.FORBIDDEN);
 
         Loan loan = loanService.findLoanById(loanApplicationDTO.getLoanId());
         if(loan == null) return new ResponseEntity<>("There is no such type of loan", HttpStatus.FORBIDDEN);
@@ -58,7 +61,7 @@ public class LoadController {
         Account accountDestino = accountService.findByNumber(loanApplicationDTO.getToAccountNumber());
         if(accountDestino == null) return new ResponseEntity<>("Account dosent exist", HttpStatus.FORBIDDEN);
 
-        if(!clientConnect.getAccount().contains(accountDestino)) return new ResponseEntity<>("Account dosent exist", HttpStatus.FORBIDDEN);;
+        if(!clientConnect.getAccount().contains(accountDestino)) return new ResponseEntity<>("Does not belong to the authenticated client", HttpStatus.FORBIDDEN);;
 
         ClientLoan clientLoan = new ClientLoan(loanApplicationDTO.getAmount()*1.2,loanApplicationDTO.getPayments());
 
